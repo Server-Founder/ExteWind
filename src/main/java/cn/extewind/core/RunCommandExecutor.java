@@ -2,6 +2,7 @@ package cn.extewind.core;
 
 import cn.extewind.core.command.AbstractCommand;
 import cn.extewind.core.command.SetConfigCommand;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +16,17 @@ import java.util.Map;
  */
 public class RunCommandExecutor {
 
+    private Logger logger = Logger.getLogger(RunCommandExecutor.class);
+
     private static Map<String, AbstractCommand> commands = new HashMap<>();
     static {
         registerCommands();
     }
 
+    public static void main(String[] args) {
+        RunCommandExecutor executor = new RunCommandExecutor();
+        executor.run(new String[]{"-c","config.yml"});
+    }
 
     public void run(String[] command){
         for(int i = 0;i<command.length;i++){
@@ -27,8 +34,9 @@ public class RunCommandExecutor {
             if(cmd!=null){
                 int len = cmd.getArgs();
                 String[] args = new String[len];
-                System.arraycopy(command,i,args,0,len);
-                cmd.run(args);
+                System.arraycopy(command,i+1,args,0,len);
+                String target = cmd.run(args);
+                logger.info("["+cmd.getClass().getSimpleName()+"]"+(target==null?"":target));
                 i = i+len;
             }else{
                 return;

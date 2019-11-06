@@ -7,6 +7,7 @@ package cn.extewind.core;
 public class ExteWind {
 
     public static void main(String[] args) {
-
+        RunCommandExecutor executor = new RunCommandExecutor();
+        executor.run(args);
     }
 }
