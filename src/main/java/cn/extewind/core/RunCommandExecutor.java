@@ -28,11 +28,6 @@ public class RunCommandExecutor {
         registerHandlers();
     }
 
-    public static void main(String[] args) {
-        RunCommandExecutor executor = new RunCommandExecutor();
-        executor.run(new String[]{"-c","config.yml"},new LocalSystem());
-    }
-
     public void run(String[] command,LocalSystem system){
         for(int i = 0;i<command.length;i++){
             AbstractCommand cmd = commands.get(command[i]);

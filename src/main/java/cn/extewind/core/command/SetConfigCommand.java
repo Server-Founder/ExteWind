@@ -2,6 +2,7 @@ package cn.extewind.core.command;
 
 import cn.extewind.core.LocalLib;
 import cn.extewind.core.Server;
+import cn.extewind.core.config.FileSystem;
 import cn.extewind.core.config.YamlConfig;
 
 import java.io.IOException;
@@ -27,28 +28,6 @@ public class SetConfigCommand extends AbstractCommand{
 
     @Override
     public Object run(String[] args) {
-        Server server = null;
-        String name;
-        String[] friends;
-        int maxTasks;
-        int minServers;
-        try{
-            String arg0 = LocalLib.getLocalFile(args[0]);
-            YamlConfig config = new YamlConfig(arg0);
-            name = config.get("server.name").toString();
-            Object[] frs = config.getArray("server.friends");
-            friends = new String[frs.length];
-            for(int i = 0;i<frs.length;i++){
-                friends[i] = frs[i].toString();
-            }
-            maxTasks = config.getInt("server.max-tasks");
-            minServers = config.getInt("server.min-servers");
-            server = new Server(name,friends,maxTasks,minServers);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-
-        return server;
+        return FileSystem.readConfig(args[0]);
     }
 }

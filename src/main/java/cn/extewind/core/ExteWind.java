@@ -17,6 +17,6 @@ public class ExteWind {
         executor.run(args,system);
         //获得一切命令执行对象后
         Server server = system.getProperty(LOCAL_PROPERTY_SERVER,Server.class);
-        
+
     }
 }
