@@ -1,11 +1,6 @@
 package cn.extewind.core.command;
 
-import cn.extewind.core.LocalLib;
-import cn.extewind.core.Server;
 import cn.extewind.core.config.FileSystem;
-import cn.extewind.core.config.YamlConfig;
-
-import java.io.IOException;
 
 /**
  * 文件名 和jar包一个路径
