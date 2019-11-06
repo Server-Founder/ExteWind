@@ -26,8 +26,8 @@ public class SetConfigCommand extends AbstractCommand{
     }
 
     @Override
-    public String run(String[] args) {
-        Server server;
+    public Object run(String[] args) {
+        Server server = null;
         String name;
         String[] friends;
         int maxTasks;
@@ -49,6 +49,6 @@ public class SetConfigCommand extends AbstractCommand{
         }
 
 
-        return null;
+        return server;
     }
 }

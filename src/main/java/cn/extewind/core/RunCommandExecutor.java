@@ -2,6 +2,8 @@ package cn.extewind.core;
 
 import cn.extewind.core.command.AbstractCommand;
 import cn.extewind.core.command.SetConfigCommand;
+import cn.extewind.core.handler.Handler;
+import cn.extewind.core.handler.SetConfigHandler;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -18,25 +20,29 @@ public class RunCommandExecutor {
 
     private Logger logger = Logger.getLogger(RunCommandExecutor.class);
 
+    private static Map<Class, Handler> handlerMap = new HashMap<>();
+
     private static Map<String, AbstractCommand> commands = new HashMap<>();
     static {
         registerCommands();
+        registerHandlers();
     }
 
     public static void main(String[] args) {
         RunCommandExecutor executor = new RunCommandExecutor();
-        executor.run(new String[]{"-c","config.yml"});
+        executor.run(new String[]{"-c","config.yml"},new LocalSystem());
     }
 
-    public void run(String[] command){
+    public void run(String[] command,LocalSystem system){
         for(int i = 0;i<command.length;i++){
             AbstractCommand cmd = commands.get(command[i]);
             if(cmd!=null){
                 int len = cmd.getArgs();
                 String[] args = new String[len];
                 System.arraycopy(command,i+1,args,0,len);
-                String target = cmd.run(args);
-                logger.info("["+cmd.getClass().getSimpleName()+"]"+(target==null?"":target));
+                Object target = cmd.run(args);
+                logger.info("["+cmd.getClass().getSimpleName()+"]"+(target==null?"":target.getClass().equals(String.class)?target:target.getClass().getSimpleName()+" inited"));
+                handlerMap.get(cmd.getClass()).handle(target,system);
                 i = i+len;
             }else{
                 return;
@@ -48,4 +54,7 @@ public class RunCommandExecutor {
         commands.put("-c",new SetConfigCommand(1));
     }
 
+    public static void registerHandlers(){
+        handlerMap.put(SetConfigCommand.class, new SetConfigHandler());
+    }
 }

@@ -8,7 +8,7 @@ public abstract class AbstractCommand {
         this.args = args;
     }
 
-    public abstract String run(String[] args);
+    public abstract Object run(String[] args);
 
     public int getArgs() {
         return args;

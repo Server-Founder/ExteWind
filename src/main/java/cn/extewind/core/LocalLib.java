@@ -2,6 +2,7 @@ package cn.extewind.core;
 
 public class LocalLib {
 
+    public static String LOCAL_PROPERTY_SERVER = "server";
 
     private static String local;
     static {
